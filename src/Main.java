@@ -12,49 +12,49 @@ public class Main {
             {0,0,8,6,0,0,2,4,0}
     };
     public static void main(String[] args){
-      int timesRun = 0;
-      int[][][] prevPossibilities = new int[9][9][9];
-      boolean stop = false;
-      //TODO:ADD GUI
-      //TODO:REMOVE NON-BACKTRACK ALGORITHM
-      while (!check(sudoku)) {
-          timesRun++;
-          int[][][] findPossibilities = find(sudoku);
-          for (int i = 0; i < findPossibilities.length; i++) {
-              for (int j = 0; j < findPossibilities[i].length; j++) {
-                  int p = 0;
-                  for (int k = 0; k < findPossibilities[i][j].length; k++) {
-                      if (findPossibilities[i][j][k] != 0) {
-                          p++;
-                      }
-                  }
-                  if (p == 1) {
-                      sudoku[i][j] = findPossibilities[i][j][0];
-                  }
-              }
-          }
-          stop = true;
-          for (int i = 0; i < prevPossibilities.length; i++) {
-              for (int j = 0; j < prevPossibilities[i].length; j++) {
-                  for (int k = 0; k < prevPossibilities[i][j].length; k++) {
-                      if (prevPossibilities[i][j][k] != findPossibilities[i][j][k]) {
-                          stop = false;
-                          break;
-                      }
-                  }
-              }
-          }
-          if (stop) {
-              System.out.println("Backtrack necessary");
-              backtrack(0,-1);
-              break;
-          }
-          prevPossibilities = findPossibilities;
-      }
-      if (!stop) {
-          System.out.println("Done! Times run: " + timesRun);
-      }
-      System.out.println(Arrays.deepToString(sudoku));
+        int timesRun = 0;
+        int[][][] prevPossibilities = new int[9][9][9];
+        boolean stop = false;
+        //TODO:ADD GUI
+        //TODO:REMOVE NON-BACKTRACK ALGORITHM
+        while (!check(sudoku)) {
+            timesRun++;
+            int[][][] findPossibilities = find(sudoku);
+            for (int i = 0; i < findPossibilities.length; i++) {
+                for (int j = 0; j < findPossibilities[i].length; j++) {
+                    int p = 0;
+                    for (int k = 0; k < findPossibilities[i][j].length; k++) {
+                        if (findPossibilities[i][j][k] != 0) {
+                            p++;
+                        }
+                    }
+                    if (p == 1) {
+                        sudoku[i][j] = findPossibilities[i][j][0];
+                    }
+                }
+            }
+            stop = true;
+            for (int i = 0; i < prevPossibilities.length; i++) {
+                for (int j = 0; j < prevPossibilities[i].length; j++) {
+                    for (int k = 0; k < prevPossibilities[i][j].length; k++) {
+                        if (prevPossibilities[i][j][k] != findPossibilities[i][j][k]) {
+                            stop = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (stop) {
+                System.out.println("Backtrack necessary");
+                backtrack(0,-1);
+                break;
+            }
+            prevPossibilities = findPossibilities;
+        }
+        if (!stop) {
+            System.out.println("Done! Times run: " + timesRun);
+        }
+        System.out.println(Arrays.deepToString(sudoku));
     }
     private static int[] box(int[][] sudoku, int row, int column) {
         int boxRow = Math.round(row/3);
@@ -150,4 +150,3 @@ public class Main {
         return true;
     }
 }
-
