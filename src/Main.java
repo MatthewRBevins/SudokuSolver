@@ -16,6 +16,7 @@ public class Main {
         int[][][] prevPossibilities = new int[9][9][9];
         boolean stop = false;
         //TODO:ADD GUI
+        //TODO:X SUDOKUS
         //TODO:REMOVE NON-BACKTRACK ALGORITHM
         while (!check(sudoku)) {
             timesRun++;
