@@ -6,17 +6,18 @@ public class Solver {
     public void solve(int[][] sudoku) {
         //TODO:ADD GUI
         //TODO:X SUDOKUS
+        //TODO:DIFFERENT SIZES
         backtrack(0,-1, sudoku);
         System.out.println(Arrays.deepToString(sudoku));
     }
     private int[] box(int[][] sudoku, int row, int column) {
-        int boxRow = Math.round(row/10);
-        int boxCol = Math.round(column/10);
+        int boxRow = Math.round(row/3);
+        int boxCol = Math.round(column/3);
         int[] finalArr = new int[100];
         int index = 0;
         for (int i = 0; i < sudoku.length; i++) {
             for (int j = 0; j < sudoku[i].length; j++) {
-                if (Math.round(i/10) == boxRow && Math.round(j/10) == boxCol) {
+                if (Math.round(i/3) == boxRow && Math.round(j/3) == boxCol) {
                     finalArr[index] = sudoku[i][j];
                     index++;
                 }
@@ -26,10 +27,10 @@ public class Solver {
     }
     private boolean backtrack(int r, int c, int[][] sudoku) {
         c++;
-        if (c > 99) {
+        if (c > 8) {
             c = 0;
             r++;
-            if (r > 99) {
+            if (r > 8) {
                 return true;
             }
         }
@@ -37,7 +38,7 @@ public class Solver {
             return backtrack(r,c, sudoku);
         }
         else {
-            for (int i = 1; i < 101; i++) {
+            for (int i = 1; i < 10; i++) {
                 //if something doesn't work (reaches a "dead end"), it'll return false, ignore those solutions, and go back to where it was when it started
                 if (works(i, r, c, sudoku)) {
                     sudoku[r][c] = i;
@@ -80,7 +81,7 @@ public class Solver {
         return false;
     }
     private boolean works(int num, int row, int column, int[][] sudoku) {
-        if (num < 1 || num > 100) {
+        if (num < 1 || num > 9) {
             return false;
         }
         if (isIn(num,box(sudoku,row,column))) {
