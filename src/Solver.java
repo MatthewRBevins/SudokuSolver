@@ -3,12 +3,13 @@ public class Solver {
     public Solver(){
 
     }
-    public void solve(int[][] sudoku) {
+    public int[][] solve(int[][] sudoku) {
+        System.out.println("***" + Arrays.deepToString(sudoku));
         //TODO:ADD GUI
         //TODO:X SUDOKUS
         //TODO:DIFFERENT SIZES
         backtrack(0,-1, sudoku);
-        System.out.println(Arrays.deepToString(sudoku));
+        return sudoku;
     }
     private int[] box(int[][] sudoku, int row, int column) {
         int boxRow = Math.round(row/3);
