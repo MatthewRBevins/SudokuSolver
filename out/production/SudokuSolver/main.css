@@ -1,0 +1,9 @@
+.button {
+
+}
+#new{
+    -fx-text-fill: red;
+}
+#title{
+    -fx-font: italic bold 20px 'serif';
+}

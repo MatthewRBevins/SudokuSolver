@@ -1,10 +1,14 @@
 import java.util.Arrays;
 public class Solver {
-    public Solver(){
-
+    boolean diagonals;
+    int sqrt;
+    int size;
+    public Solver(boolean diagonals, int size){
+        this.diagonals = diagonals;
+        this.sqrt = (int) Math.sqrt(size);
+        this.size = size;
     }
     public int[][] solve(int[][] sudoku) {
-        System.out.println("***" + Arrays.deepToString(sudoku));
         //TODO:ADD GUI
         //TODO:X SUDOKUS
         //TODO:DIFFERENT SIZES
@@ -12,13 +16,13 @@ public class Solver {
         return sudoku;
     }
     private int[] box(int[][] sudoku, int row, int column) {
-        int boxRow = Math.round(row/3);
-        int boxCol = Math.round(column/3);
+        int boxRow = Math.round(row/sqrt);
+        int boxCol = Math.round(column/sqrt);
         int[] finalArr = new int[100];
         int index = 0;
         for (int i = 0; i < sudoku.length; i++) {
             for (int j = 0; j < sudoku[i].length; j++) {
-                if (Math.round(i/3) == boxRow && Math.round(j/3) == boxCol) {
+                if (Math.round(i/sqrt) == boxRow && Math.round(j/sqrt) == boxCol) {
                     finalArr[index] = sudoku[i][j];
                     index++;
                 }
@@ -28,10 +32,10 @@ public class Solver {
     }
     private boolean backtrack(int r, int c, int[][] sudoku) {
         c++;
-        if (c > 8) {
+        if (c > size-1) {
             c = 0;
             r++;
-            if (r > 8) {
+            if (r > size-1) {
                 return true;
             }
         }
@@ -39,7 +43,7 @@ public class Solver {
             return backtrack(r,c, sudoku);
         }
         else {
-            for (int i = 1; i < 10; i++) {
+            for (int i = 1; i < size+1; i++) {
                 //if something doesn't work (reaches a "dead end"), it'll return false, ignore those solutions, and go back to where it was when it started
                 if (works(i, r, c, sudoku)) {
                     sudoku[r][c] = i;
@@ -54,12 +58,12 @@ public class Solver {
     }
     //TODO:MAY NEED FOR LATER
     private int[][][] findPossibilities(int[][] sudoku) {
-        int[][][] finalArr = new int[9][9][9];
+        int[][][] finalArr = new int[size][size][size];
         for (int i = 0; i < sudoku.length; i++) {
             for (int j = 0; j < sudoku.length; j++) {
                 if (sudoku[i][j] == 0) {
                     int index = 0;
-                    for (int k = 0; k < 10; k++) {
+                    for (int k = 0; k < size+1; k++) {
                         if (works(k, i, j, sudoku)) {
                             finalArr[i][j][index] = k;
                             index++;
@@ -82,7 +86,7 @@ public class Solver {
         return false;
     }
     private boolean works(int num, int row, int column, int[][] sudoku) {
-        if (num < 1 || num > 9) {
+        if (num < 1 || num > size) {
             return false;
         }
         if (isIn(num,box(sudoku,row,column))) {
@@ -91,6 +95,22 @@ public class Solver {
         for (int i = 0; i < sudoku.length; i++) {
             if (sudoku[row][i] == num || sudoku[i][column] == num) {
                 return false;
+            }
+        }
+        if (diagonals) {
+            if (row == column) {
+                for (int i = 0; i < sudoku.length; i++) {
+                    if (sudoku[i][i] == num) {
+                        return false;
+                    }
+                }
+            }
+            if (row == (size-1) - column) {
+                for (int i = 0; i < sudoku.length; i++) {
+                    if (sudoku[i][size - (i + 1)] == num) {
+                        return false;
+                    }
+                }
             }
         }
         return true;
